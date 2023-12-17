@@ -36,10 +36,12 @@ const secondDivider = 100;
 let clickingPower = 1;
 melonSecUpdate();
 
+// event listener that updates the building and it's values
 building1.addEventListener("click", function () {
  [price1, buildingCount1, building1Income] = updateBuilding(price1, plantPrice, buildingCount1, building1Added, mult1, building1Income, plantCount, addedPlant);
 });
 
+// event listener that updates the building and it's values
 building2.addEventListener("click", function () {
   [price2, buildingCount2, building2Income] = updateBuilding(price2, farmPrice, buildingCount2, building2Added, mult2, building2Income, farmCount, addedFarm);
 })
@@ -53,6 +55,18 @@ upgrade2.addEventListener("click", function () {
   upgrader2(upgrade2, mult2, 3, 300);
 })
 
+/**
+ * Function that updates the values of the building and displays them on screen
+ * @param {*} price price to upgrade the building
+ * @param {*} priceDisplay element to display the price
+ * @param {*} buildingCount level of the building
+ * @param {*} buildingAdded the mount of melons the building adds
+ * @param {*} multiplier multiplier for the melons that he building produces
+ * @param {*} buildingIncome amount of melons the building produces
+ * @param {*} buildingCountDisplay element to display the level of the building
+ * @param {*} buildingIncomeDisplay  element to display the amount of melons the building produces
+ * @returns 
+ */
 function updateBuilding(price, priceDisplay, buildingCount, buildingAdded, multiplier, buildingIncome, buildingCountDisplay, buildingIncomeDisplay) {
   if (melons >= price) {
     melons -= price;
