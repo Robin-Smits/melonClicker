@@ -7,115 +7,102 @@ const building2 = document.getElementById("building2");
 const upgrade1 = document.getElementById("upgrade1");
 const upgrade2 = document.getElementById("upgrade2");
 const addedMelonPerSec = document.getElementById("addedMelonsPerSec")
-building1.addEventListener("click", firstBuilding);
-building2.addEventListener("click", secondBuilding);
 
-
-melonHitbox.addEventListener("click", clickMelon);
-let melons = 3000;
-let melonPerSec = 0;
-melonSecUpdate();
-let floorMelons = 0;
-const secondDivider = 100;
-
+//building 1
 let price1 = 10;
 let buildingCount1 = 0;
 let mult1 = 1;
 let building1Income = 0.5;
 let building1Added = 0.5;
-let building1Total = 0
 const plantPrice = document.getElementById("plantPrice");
 const plantCount = document.getElementById("plantCount");
 const addedPlant = document.getElementById("addedPlant");
-function firstBuilding() {
-  if(melons >= price1){
-    melons -= price1;
-    price1 = Math.floor(price1 * 1.15);
-    if(price1 > 10000){
-      let price1Display = Math.round(price1 / 100) / 10;
-      plantPrice.innerHTML = `price: ${price1Display}k`;
-    }
-    else{
-      plantPrice.innerHTML = `price: ${price1}`;
-    }
-    buildingCount1 += 1;
-    building1Income = buildingCount1 * building1Added * mult1;
-    building1Total = building1Income;
-    melonSecUpdate();
-    plantCount.innerHTML = buildingCount1;
-    addedPlant.innerHTML = `${building1Income} Melons/s`;
-  }
-  
-}
 
+//building 2
 let price2 = 300;
 let buildingCount2 = 0;
 let mult2 = 1;
 let building2Income = 10;
 let building2Added = 10;
-let building2Total = 0
 const farmPrice = document.getElementById("farmPrice");
 const farmCount = document.getElementById("farmCount");
 const addedFarm = document.getElementById("addedFarm");
-function secondBuilding() {
-  if(melons >= price2){
-    melons -= price2;
-    price2 = Math.floor(price2 * 1.15);
-    if(price2 > 10000){
-      let price2Display = Math.round(price2 / 100) / 10;
-      farmPrice.innerHTML = `price: ${price2Display}k`;
-    }
-    else{
-      farmPrice.innerHTML = `price: ${price2}`;
-    }
-    buildingCount2 += 1;
-    building2Income = buildingCount2 * building2Added * mult2;
-    building2Total = building2Income;
-    melonSecUpdate();
-    farmCount.innerHTML = buildingCount2;
-    addedFarm.innerHTML = `${building2Income} Melons/s`;
-  }
-  
-}
 
-function numberToDisplay(prijs, prijsDisplay, buildingPrice, buildingCount, buildingNumber){
-  if(melons >= price2){
-    melons -= price2;
-    price2 = Math.floor(price2 * 1.15);
-    if(price2 > 10000){
-      let price2Display = Math.round(price2 / 100) / 10;
-      farmPrice.innerHTML = `price: ${price2Display}k`;
-    }
-    else{
-      farmPrice.innerHTML = `price: ${price2}`;
-    }
-    melonPerSec += 1000;
-    buildingCount2 += 1;
-    
-    farmCount.innerHTML = buildingCount2;
-  }
-}
-
+//set base values
+let melons = 3000;
+let melonPerSec = 0;
+let floorMelons = 0;
+const secondDivider = 100;
 let clickingPower = 1;
+melonSecUpdate();
+
+// event listener that updates the building and it's values
+building1.addEventListener("click", function () {
+ [price1, buildingCount1, building1Income] = updateBuilding(price1, plantPrice, buildingCount1, building1Added, mult1, building1Income, plantCount, addedPlant);
+});
+
+// event listener that updates the building and it's values
+building2.addEventListener("click", function () {
+  [price2, buildingCount2, building2Income] = updateBuilding(price2, farmPrice, buildingCount2, building2Added, mult2, building2Income, farmCount, addedFarm);
+})
+melonHitbox.addEventListener("click", clickMelon);
+// Add a click event listener to the element
+upgrade1.addEventListener("click", function () {
+  upgrader1(upgrade1, mult1, 2, 1000);
+});
+
+upgrade2.addEventListener("click", function () {
+  upgrader2(upgrade2, mult2, 3, 300);
+})
+
+/**
+ * Function that updates the values of the building and displays them on screen
+ * @param {*} price price to upgrade the building
+ * @param {*} priceDisplay element to display the price
+ * @param {*} buildingCount level of the building
+ * @param {*} buildingAdded the mount of melons the building adds
+ * @param {*} multiplier multiplier for the melons that he building produces
+ * @param {*} buildingIncome amount of melons the building produces
+ * @param {*} buildingCountDisplay element to display the level of the building
+ * @param {*} buildingIncomeDisplay  element to display the amount of melons the building produces
+ * @returns 
+ */
+function updateBuilding(price, priceDisplay, buildingCount, buildingAdded, multiplier, buildingIncome, buildingCountDisplay, buildingIncomeDisplay) {
+  if (melons >= price) {
+    melons -= price;
+    price = Math.floor(price * 1.15);
+    if (price > 10000) {
+      let priceToDisplay = Math.round(price / 100) / 10;
+      priceDisplay.innerHTML = `price: ${priceToDisplay}k`;
+    }
+    else {
+      priceDisplay.innerHTML = `price: ${price}`;
+    }
+    buildingCount += 1;
+    buildingIncome = buildingCount * buildingAdded * multiplier;
+    melonSecUpdate();
+    buildingCountDisplay.innerHTML = buildingCount;
+    buildingIncomeDisplay.innerHTML = `${buildingIncome} Melons/s`;
+  }
+  return [price, buildingCount, buildingIncome]
+}
+
 function clickMelon() {
   melons += clickingPower;
   melonAmount.innerHTML = melons;
   audio.currentTime = 0;
   const origAudio = document.getElementById("clickSound")
-    const newAudio = origAudio.cloneNode()
-    newAudio.play()
+  const newAudio = origAudio.cloneNode()
+  newAudio.play()
 }
 
 if (melons === 0) {
   floorMelons += 1;
 }
-//vragen
 
 for (let i = 0; i < 1000000; i++) {
   task(i);
 }
-
-
 
 function task(i) {
   setTimeout(function () {
@@ -135,7 +122,7 @@ function task(i) {
       melonAmount.innerHTML = `${floorMelons}`;
     }
   }, (1000 * i) / secondDivider);
-  
+
 }
 
 function melonSecUpdate() {
@@ -163,19 +150,8 @@ function mouseUp() {
   waterMelon.style.bottom = "40px";
 }
 
-
-
-// Add a click event listener to the element
-upgrade1.addEventListener("click", function() {
-  upgrader1(upgrade1, mult1, 2, 1000);
-});
-
-upgrade2.addEventListener("click", function() {
-  upgrader2(upgrade2, mult2, 3, 300);
-})
-
 function upgrader1(building, multname, mult, price) {
-  if(price < melons) {
+  if (price < melons) {
     melons -= price
     // Get the parent element of "upgrade1"
     let upgrades = document.getElementById("upgrades");
@@ -184,7 +160,7 @@ function upgrader1(building, multname, mult, price) {
 
     mult1 *= mult
     addedPlant.innerHTML = `${buildingCount1 * building1Added * mult1}  Melons/s`;
-    melonSecUpdate() 
+    melonSecUpdate()
   }
 };
 
@@ -196,7 +172,7 @@ function upgrader2(building, multname, mult) {
 
   mult2 *= mult
   addedFarm.innerHTML = `${buildingCount2 * building2Added * mult2}  Melons/s`;
-  melonSecUpdate() 
+  melonSecUpdate()
 };
 
 
