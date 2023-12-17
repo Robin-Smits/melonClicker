@@ -36,8 +36,6 @@ const secondDivider = 100;
 let clickingPower = 1;
 melonSecUpdate();
 
-//building1.addEventListener("click", firstBuilding);
-//building2.addEventListener("click", secondBuilding);
 building1.addEventListener("click", function () {
  [price1, buildingCount1, building1Income] = updateBuilding(price1, plantPrice, buildingCount1, building1Added, mult1, building1Income, plantCount, addedPlant);
 });
@@ -71,48 +69,8 @@ function updateBuilding(price, priceDisplay, buildingCount, buildingAdded, multi
     melonSecUpdate();
     buildingCountDisplay.innerHTML = buildingCount;
     buildingIncomeDisplay.innerHTML = `${buildingIncome} Melons/s`;
-    return [price, buildingCount, buildingIncome]
   }
-}
-
-function firstBuilding() {
-  if (melons >= price1) {
-    melons -= price1;
-    price1 = Math.floor(price1 * 1.15);
-    if (price1 > 10000) {
-      let price1Display = Math.round(price1 / 100) / 10;
-      plantPrice.innerHTML = `price: ${price1Display}k`;
-    }
-    else {
-      plantPrice.innerHTML = `price: ${price1}`;
-    }
-    buildingCount1 += 1;
-    building1Income = buildingCount1 * building1Added * mult1;
-    melonSecUpdate();
-    plantCount.innerHTML = buildingCount1;
-    addedPlant.innerHTML = `${building1Income} Melons/s`;
-  }
-
-}
-
-function secondBuilding() {
-  if (melons >= price2) {
-    melons -= price2;
-    price2 = Math.floor(price2 * 1.15);
-    if (price2 > 10000) {
-      let price2Display = Math.round(price2 / 100) / 10;
-      farmPrice.innerHTML = `price: ${price2Display}k`;
-    }
-    else {
-      farmPrice.innerHTML = `price: ${price2}`;
-    }
-    buildingCount2 += 1;
-    building2Income = buildingCount2 * building2Added * mult2;
-    melonSecUpdate();
-    farmCount.innerHTML = buildingCount2;
-    addedFarm.innerHTML = `${building2Income} Melons/s`;
-  }
-
+  return [price, buildingCount, buildingIncome]
 }
 
 function clickMelon() {
